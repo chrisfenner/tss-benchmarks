@@ -6,14 +6,23 @@ Compare the speed of TPM operations across different TPM stacks
 
 ### Apple MacBook Air M2, 24GB RAM
 
-#### Go
+#### Go (WIP updates to github.com/google/go-tpm)
 
-| Test Name                   | Iteration Count | Time Per Iteration |
-| --------------------------- | --------------- | ------------------ |
-| seal_unseal                 | 10000           | 243.68µs           |
-| pcr_extend                  | 10000           | 61.583µs           |
-| rsa_2048_create_sign_verify | 1000            | 22.137259ms        |
-| ecc_p256_create_sign_verify | 10000           | 1.657945ms         |
+| Test Name                   | Number of Commands | Iteration Count | Time Per Iteration |
+| --------------------------- | ------------------ | --------------- | ------------------ |
+| seal_unseal                 | 3                  | 10000           | 243.68µs           |
+| pcr_extend                  | 1                  | 10000           | 61.583µs           |
+| rsa_2048_create_sign_verify | 5                  | 1000            | 22.137259ms        |
+| ecc_p256_create_sign_verify | 5                  | 10000           | 1.657945ms         |
+
+#### C# (github.com/microsoft/TSS.MSR)
+
+| Test Name                   | Number of Commands | Iteration Count | Time Per Iteration |
+| --------------------------- | ------------------ | --------------- | ------------------ |
+| seal_unseal                 | 3                  | 10000           | 2.224ms            |
+| pcr_extend                  | 1                  | 10000           | 873.4µs            |
+| rsa_2048_create_sign_verify | 5                  | 1000            | 26.325ms           |
+| ecc_p256_create_sign_verify | 5                  | 10000           | 5.252ms            |
 
 ## Tests
 

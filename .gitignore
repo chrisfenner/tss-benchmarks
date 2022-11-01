@@ -4,6 +4,8 @@
 *.dll
 *.so
 *.dylib
+/src/cs/obj
+/src/cs/bin
 
 tss-benchmarks
 
@@ -15,3 +17,5 @@ tss-benchmarks
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+#
+.vscode

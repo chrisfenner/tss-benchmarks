@@ -1,0 +1,6 @@
+[submodule "src/cs/TSS.MSR"]
+	path = src/cs/TSS.MSR
+	url = https://github.com/microsoft/TSS.MSR
+[submodule "deps/cs/TSS.MSR"]
+	path = deps/cs/TSS.MSR
+	url = https://github.com/microsoft/TSS.MSR
