@@ -5,6 +5,8 @@
 *.so
 *.dylib
 
+tss-benchmarks
+
 # Test binary, built with `go test -c`
 *.test
 
