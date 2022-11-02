@@ -1,5 +1,7 @@
 ﻿using System;
 using System.CommandLine;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Tpm2Lib;
 using ShellProgressBar;
@@ -76,6 +78,8 @@ class TSSBenchmarks
         Tpm2 tpm = new Tpm2(tcpDev);
         tpm._Behavior.Strict = true;
         tpm.Startup(Su.Clear);
+        // tpm.perfCounters.Clear();
+        // tpm.perfInvocations.Clear();
 
         DateTime start = DateTime.Now;
         using (var progressBar = new ProgressBar(testCount, "Running tests..."))
@@ -98,6 +102,16 @@ class TSSBenchmarks
         string elapsedStr = prettyTimeSpan(elapsed);
         string elapsedEachStr = prettyTimeSpan(elapsedEach);
         Console.WriteLine($"Completed test '{testName}' in {elapsedStr}.\n({elapsedEachStr} per iteration)\n");
+
+        // Dictionary<string, double> perf = tpm.perfCounters;
+
+        // Console.WriteLine("Performance counters:");
+        // double totalTime = 0;
+        // foreach (var pair in perf.OrderBy(p => p.Key)) {
+        //     Console.WriteLine($"{pair.Key, 20}: ({tpm.perfInvocations[pair.Key], 6}) {pair.Value, 12}");
+        //     totalTime += pair.Value;
+        // }
+        // Console.WriteLine($"{"total", 20}: {totalTime, 12}");
 
         tcpDev.Close();
     }
@@ -124,7 +138,7 @@ class TSSBenchmarks
             null,
             new KeyedhashParms(),
             new Tpm2bDigestKeyedhash());
-        TpmHandle blob = tpm[Auth.Default].CreatePrimary(TpmRh.Owner, sensCreate, inPub,
+        TpmHandle blob = tpm[Auth.Pw].CreatePrimary(TpmRh.Owner, sensCreate, inPub,
                                             null, null,
                                             out TpmPublic outPublic,
                                             out CreationData creationData,
@@ -143,7 +157,7 @@ class TSSBenchmarks
     }
     static bool runPCRExtend(Tpm2 tpm)
     {
-        tpm[Auth.Default].PcrEvent(TpmHandle.Pcr(0), Encoding.ASCII.GetBytes("measurement"));
+        tpm[Auth.Pw].PcrEvent(TpmHandle.Pcr(0), Encoding.ASCII.GetBytes("measurement"));
         return true;
     }
     static bool runRSA2048CreateSignVerify(Tpm2 tpm)
@@ -156,7 +170,7 @@ class TSSBenchmarks
             null,
             new RsaParms(new SymDefObject(), new SchemeRsapss(TpmAlgId.Sha256), 2048, 0),
             new Tpm2bPublicKeyRsa(rand));
-        TpmHandle key = tpm[Auth.Default].CreatePrimary(TpmRh.Owner, new SensitiveCreate(), inPub,
+        TpmHandle key = tpm[Auth.Pw].CreatePrimary(TpmRh.Owner, new SensitiveCreate(), inPub,
                                             null, null,
                                             out TpmPublic outPublic,
                                             out CreationData creationData,
@@ -164,7 +178,7 @@ class TSSBenchmarks
                                             out TkCreation creationTicket);
 
         TpmHash digestToSign = new TpmHash(TpmAlgId.Sha256);
-        var signature = tpm[Auth.Default].Sign(key,            // Handle of signing key
+        var signature = tpm[Auth.Pw].Sign(key,            // Handle of signing key
                                             digestToSign,         // Data to sign
                                             null,                 // Use key's scheme
                                             TpmHashCheck.Null());
@@ -184,7 +198,7 @@ class TSSBenchmarks
             null,
             new EccParms(new SymDefObject(), new SchemeEcdsa(TpmAlgId.Sha256), EccCurve.NistP256, new NullKdfScheme()),
             new EccPoint(rand, null));
-        TpmHandle key = tpm[Auth.Default].CreatePrimary(TpmRh.Owner, new SensitiveCreate(), inPub,
+        TpmHandle key = tpm[Auth.Pw].CreatePrimary(TpmRh.Owner, new SensitiveCreate(), inPub,
                                             null, null,
                                             out TpmPublic outPublic,
                                             out CreationData creationData,
@@ -192,7 +206,7 @@ class TSSBenchmarks
                                             out TkCreation creationTicket);
 
         TpmHash digestToSign = new TpmHash(TpmAlgId.Sha256);
-        var signature = tpm[Auth.Default].Sign(key,
+        var signature = tpm[Auth.Pw].Sign(key,
                                             digestToSign,
                                             null,
                                             TpmHashCheck.Null());
