@@ -28,10 +28,10 @@ Compare the speed of TPM operations across different TPM stacks
 
 | Test Name                   | Number of Commands | Iteration Count | Time Per Iteration |
 | --------------------------- | ------------------ | --------------- | ------------------ |
-| seal_unseal                 | 3                  | 10000           | 347.6µs            |
-| pcr_extend                  | 1                  | 10000           | 115.8µs            |
-| rsa_2048_create_sign_verify | 5                  | 1000            | 21.871ms           |
-| ecc_p256_create_sign_verify | 5                  | 10000           | 1.606ms            |
+| seal_unseal                 | 3                  | 10000           | 295.8µs            |
+| pcr_extend                  | 1                  | 10000           | 96.8µs             |
+| rsa_2048_create_sign_verify | 5                  | 1000            | 21.926ms           |
+| ecc_p256_create_sign_verify | 5                  | 10000           | 1.529ms            |
 
 ## Tests
 
