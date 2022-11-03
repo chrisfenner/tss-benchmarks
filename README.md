@@ -24,6 +24,15 @@ Compare the speed of TPM operations across different TPM stacks
 | rsa_2048_create_sign_verify | 5                  | 1000            | 24.773ms           |
 | ecc_p256_create_sign_verify | 5                  | 10000           | 4.105ms            |
 
+#### Optimized C# (private fork)
+
+| Test Name                   | Number of Commands | Iteration Count | Time Per Iteration |
+| --------------------------- | ------------------ | --------------- | ------------------ |
+| seal_unseal                 | 3                  | 10000           | 347.6µs            |
+| pcr_extend                  | 1                  | 10000           | 115.8µs            |
+| rsa_2048_create_sign_verify | 5                  | 1000            | 21.871ms           |
+| ecc_p256_create_sign_verify | 5                  | 10000           | 1.606ms            |
+
 ## Tests
 
 All versions of the tests expect a local TPM simulator running on the normal TCP
