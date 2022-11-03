@@ -78,8 +78,6 @@ class TSSBenchmarks
         Tpm2 tpm = new Tpm2(tcpDev);
         tpm._Behavior.Strict = true;
         tpm.Startup(Su.Clear);
-        // tpm.perfCounters.Clear();
-        // tpm.perfInvocations.Clear();
 
         DateTime start = DateTime.Now;
         using (var progressBar = new ProgressBar(testCount, "Running tests..."))
@@ -102,16 +100,6 @@ class TSSBenchmarks
         string elapsedStr = prettyTimeSpan(elapsed);
         string elapsedEachStr = prettyTimeSpan(elapsedEach);
         Console.WriteLine($"Completed test '{testName}' in {elapsedStr}.\n({elapsedEachStr} per iteration)\n");
-
-        // Dictionary<string, double> perf = tpm.perfCounters;
-
-        // Console.WriteLine("Performance counters:");
-        // double totalTime = 0;
-        // foreach (var pair in perf.OrderBy(p => p.Key)) {
-        //     Console.WriteLine($"{pair.Key, 20}: ({tpm.perfInvocations[pair.Key], 6}) {pair.Value, 12}");
-        //     totalTime += pair.Value;
-        // }
-        // Console.WriteLine($"{"total", 20}: {totalTime, 12}");
 
         tcpDev.Close();
     }
